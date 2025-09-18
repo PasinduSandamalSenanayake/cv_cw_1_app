@@ -1,0 +1,52 @@
+name: Deploy to Streamlit Cloud
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+    - name: Test Streamlit app
+      run: |
+        streamlit --version
+        python -c "import streamlit as st; print('Streamlit import successful')"
+
+    - name: Deploy to Streamlit Cloud
+      run: |
+        echo "🚀 Ready for Streamlit Cloud deployment!"
+        echo "📝 Next steps:"
+        echo "1. Go to https://share.streamlit.io"
+        echo "2. Connect your GitHub repository"
+        echo "3. Select app.py as the main file path"
+        echo "4. Click Deploy!"
+        echo ""
+        echo "📋 Make sure you have:"
+        echo "   - requirements.txt with all dependencies"
+        echo "   - my_model.h5 in your repository"
+        echo "   - app.py as your main Streamlit file"

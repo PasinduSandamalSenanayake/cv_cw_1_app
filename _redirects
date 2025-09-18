@@ -1,0 +1,8 @@
+# Netlify redirects file for Streamlit Cloud proxy
+/*  https://your-app.streamlit.app/:splat  200
+
+# Optional: Handle www redirect
+# https://www.yourdomain.com/*  https://yourdomain.com/:splat  301
+
+# Optional: Force HTTPS
+# http://yourdomain.com/*  https://yourdomain.com/:splat  301
